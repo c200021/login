@@ -2,6 +2,8 @@
 session_start();
 require('functions.php');
 
+ini_set('display_errors', "On");
+
 if ($_COOKIE['email'] != '') {
 $_POST['email'] = $_COOKIE['email'];
 $_POST['password'] = $_COOKIE['password'];
@@ -23,13 +25,13 @@ if (!empty($_POST)) {
 //  ここにパスワードのチェック処理を完成させる
             if(password_verify($password, $member['password'])) {
 				// ログイン成功
-                
+               
 //  ここにセッションハイジャック対策を追加
-//              session_regenetate_id(true);
-
+                session_regenerate_id(true);
+                
 				$_SESSION['id'] = $member['id'];
 				$_SESSION['time'] = time();
-
+    
 				// ログイン情報を記録する
 				if ($_POST['save'] == 'on') {
 				    setcookie('email', $_POST['email'], time()+60*60*24*14);
